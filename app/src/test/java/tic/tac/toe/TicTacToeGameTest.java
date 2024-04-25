@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.function.Consumer;
+
 import org.junit.jupiter.api.Test;
 
 import tic.tac.toe.core.TicTacToeBoard;
@@ -19,10 +21,28 @@ public class TicTacToeGameTest {
         @Override
         public void draw(TicTacToeScore scores) {
         }
+
+        @Override
+        public void getMessageWriter(Consumer<String> writer) {
+        }       
     }
 
     private TicTacToeGame newGame() {
         return new TicTacToeGame(new TicTacToeBoardStub());
+    }
+
+    @Test
+    public void game_start_new_game_writes_to_output() {
+        // Arrange
+        var game = newGame();
+        
+        // Act
+        var state = game.takeTurn("X", 1);
+
+        // Assert
+        assertAll(
+                () -> assertEquals(TicTacToeGameState.TakeAnotherTuren, state.state()),
+                () -> assertEquals("X", game.getScores().toArray()[0]));
     }
 
     @Test

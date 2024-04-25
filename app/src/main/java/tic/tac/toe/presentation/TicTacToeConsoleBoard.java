@@ -9,14 +9,14 @@ import tic.tac.toe.core.TicTacToeScore;
 public class TicTacToeConsoleBoard implements TicTacToeBoard {
 
     private static final String lineSeparator = System.lineSeparator();
-    private Consumer<String> printf;
+    private Consumer<String> writer;
 
     public TicTacToeConsoleBoard() {
         this(s -> System.console().printf(s));
     }
 
-    public TicTacToeConsoleBoard(Consumer<String> printf) {
-        this.printf = printf;
+    public TicTacToeConsoleBoard(Consumer<String> writer) {
+        this.writer = writer;
     }
 
     record TicTacToeRow(String cell1, String cell2, String cell3) {
@@ -37,7 +37,6 @@ public class TicTacToeConsoleBoard implements TicTacToeBoard {
                     .map(Object::toString)
                     .orElse(" ");
         }
-
     }
 
     public void draw(TicTacToeScore scores_) {
@@ -54,6 +53,6 @@ public class TicTacToeConsoleBoard implements TicTacToeBoard {
                 .append(boarderLine)
                 .toString();
 
-        printf.accept(board);
+        writer.accept(board);
     }
 }

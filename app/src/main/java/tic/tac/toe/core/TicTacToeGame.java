@@ -2,7 +2,6 @@ package tic.tac.toe.core;
 
 public class TicTacToeGame {
 
-    private String currentPlayer = "X";
     final private TicTacToeScore scores = new TicTacToeScore();
     final private TicTacToeBoard board;
     private TicTacToeGameScore gameScore;
@@ -32,13 +31,5 @@ public class TicTacToeGame {
 
         board.draw(scores);
         return gameScore;
-    }
-
-    private String getCurrentPlayer(){
-        if (currentPlayer == null || currentPlayer == "X") {
-            return "X";
-        }
-
-        return "O";
     }
 }
