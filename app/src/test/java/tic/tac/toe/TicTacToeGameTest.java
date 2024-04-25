@@ -8,11 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 
 import tic.tac.toe.core.TicTacToeBoard;
+import tic.tac.toe.core.TicTacToeBoardManager;
 import tic.tac.toe.core.TicTacToeGame;
 import tic.tac.toe.core.TicTacToeScore;
 import tic.tac.toe.core.TicTacToeGameState;
 
 public class TicTacToeGameTest {
+
+    private final TicTacToeBoardStub board;
+    private final TicTacToeBoardManagerStub manager;
+    private final TicTacToeGame game;
 
     class TicTacToeBoardStub implements TicTacToeBoard {
         @Override
@@ -20,91 +25,119 @@ public class TicTacToeGameTest {
         }
     }
 
-    private TicTacToeGame newGame() {
-        return new TicTacToeGame(new TicTacToeBoardStub());
+    class TicTacToeBoardManagerStub implements TicTacToeBoardManager {
+
+        public String message;
+        private int turn = 0;
+
+        @Override
+        public int getNextInput() {
+            return turn;
+        }
+
+        public void setNextTurn(int turn){
+            this.turn = turn;
+
+        }
+
+        @Override
+        public void output(String message) {
+            this.message = message;
+        }
+
+        public String getLastMessage(){
+            return message;
+        }
+
+    }
+    
+    public TicTacToeGameTest() {
+        board = new TicTacToeBoardStub();
+        manager = new TicTacToeBoardManagerStub();
+        game = new TicTacToeGame(board, manager);
     }
 
     @Test
     public void game_start_new_game_writes_to_output() {
-        // Arrange
-        var game = newGame();
-        
+        // Arrange;
+        manager.setNextTurn(1);
+
         // Act
-        var state = game.takeTurn("X", 1);
+        var state = game.takeTurn("X");
 
         // Assert
         assertAll(
                 () -> assertEquals(TicTacToeGameState.TakeAnotherTuren, state.state()),
-                () -> assertEquals("X", game.getScores().toArray()[0]));
+                () -> assertEquals("X", game.getScores()[0]));
     }
 
     @Test
     public void takeAnotherTurn_when_turn_is_accepted() {
-        // Arrange
-        var game = newGame();
-
+        // Arrange;
+        manager.setNextTurn(1);
+        
         // Act
-        var state = game.takeTurn("X", 1);
+        var state = game.takeTurn("X");
 
         // Assert
         assertAll(
                 () -> assertEquals(TicTacToeGameState.TakeAnotherTuren, state.state()),
-                () -> assertEquals("X", game.getScores().toArray()[0]));
+                () -> assertEquals("X", game.getScores()[0]));
     }
 
     @Test
     public void somethingWentWronghave_when_turn_is_invalid_0() {
-        // Arrange
-        var game = newGame();
-        var previousScore = game.getScores().toArray();
+        // Arrange;
+        manager.setNextTurn(0);
+        var previousScore = game.getScores();
 
         // Act
-        var state = game.takeTurn("X", 0);
+        var state = game.takeTurn("X");
 
         // Assert
         assertAll(
                 () -> assertEquals(TicTacToeGameState.SomeThingWentWrong, state.state()),
-                () -> assertArrayEquals(previousScore, game.getScores().toArray()));
+                () -> assertArrayEquals(previousScore, game.getScores()));
     }
 
     @Test
     public void somethingWentWronghave_when_turn_is_invalid_10() {
-        // Arrange
-        var game = newGame();
-        var previousScore = game.getScores().toArray();
+        // Arrange;
+        manager.setNextTurn(10);
+        var previousScore = game.getScores();
 
         // Act
-        var state = game.takeTurn("X", 10);
+        var state = game.takeTurn("X");
 
         // Assert
         assertAll(
                 () -> assertEquals(TicTacToeGameState.SomeThingWentWrong, state.state()),
-                () -> assertArrayEquals(previousScore, game.getScores().toArray()));
+                () -> assertArrayEquals(previousScore, game.getScores()));
     }
 
     @Test
     public void turnIsAlreadsTaken_when_player_already_has_takend_the_turn() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 5);
-        var previousScore = game.getScores().toArray();
+        // Arrange;
+        manager.setNextTurn(5);        
+        game.takeTurn("O");
+        var previousScore = game.getScores();
 
         // Act
-        var state = game.takeTurn("X", 5);
+        var state = game.takeTurn("X");
 
         // Assert
         assertAll(
                 () -> assertEquals(TicTacToeGameState.TurnAlreadyTaken, state.state()),
-                () -> assertArrayEquals(previousScore, game.getScores().toArray()));
+                () -> assertArrayEquals(previousScore, game.getScores()));
     }
 
     @Test
     public void someThingWentWrong_when_player_is_not_valid() {
-        // Arrange
-        var game = newGame();
-
+        // Arrange;
+        manager.setNextTurn(5);
+        
         // Act
-        var state = game.takeTurn("Y", 5);
+        var state = game.takeTurn("Y");
 
         // Assert
         assertEquals(TicTacToeGameState.SomeThingWentWrong, state.state());
@@ -112,13 +145,17 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_row_1_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("X", 1);
-        game.takeTurn("X", 2);
+        // Arrange;
+        manager.setNextTurn(1);
+        game.takeTurn("X");
+        
+        manager.setNextTurn(2);
+        game.takeTurn("X");
+
+        manager.setNextTurn(3);
 
         // Act
-        var state = game.takeTurn("X", 3);
+        var state = game.takeTurn("X");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -126,13 +163,17 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_row_2_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 4);
-        game.takeTurn("O", 5);
+        // Arrange;
+        manager.setNextTurn(4);
+        game.takeTurn("O");
 
+        manager.setNextTurn(5);
+        game.takeTurn("O");
+
+        manager.setNextTurn(6);
+        
         // Act
-        var state = game.takeTurn("O", 6);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -140,13 +181,17 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_row_3_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("X", 7);
-        game.takeTurn("X", 8);
+        // Arrange;
+        manager.setNextTurn(7);
+        game.takeTurn("X");
 
+        manager.setNextTurn(8);
+        game.takeTurn("X");
+
+        manager.setNextTurn(9);
+ 
         // Act
-        var state = game.takeTurn("X", 9);
+        var state = game.takeTurn("X");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -154,13 +199,16 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_column_1_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 1);
-        game.takeTurn("O", 4);
+        // Arrange;
+        manager.setNextTurn(1);
+        game.takeTurn("O");
 
+        manager.setNextTurn(4);
+        game.takeTurn("O");
+
+        manager.setNextTurn(7);
         // Act
-        var state = game.takeTurn("O", 7);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -168,13 +216,17 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_column_2_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 2);
-        game.takeTurn("O", 5);
+        // Arrange;
+        manager.setNextTurn(2);
+        game.takeTurn("O");
+
+        manager.setNextTurn(5);
+        game.takeTurn("O");
+
+        manager.setNextTurn(8);
 
         // Act
-        var state = game.takeTurn("O", 8);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -182,13 +234,17 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_column_3_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 3);
-        game.takeTurn("O", 6);
+        // Arrange;
+        manager.setNextTurn(3);
+        game.takeTurn("O");
+
+        manager.setNextTurn(6);
+        game.takeTurn("O");
+
+        manager.setNextTurn(9);
 
         // Act
-        var state = game.takeTurn("O", 9);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -196,13 +252,17 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameHasAWinner_when_diagonal_left_to_right_is_filled_by_one_player() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 1);
-        game.takeTurn("O", 5);
+        // Arrange;
+        manager.setNextTurn(1);
+        game.takeTurn("O");
+
+        manager.setNextTurn(5);
+        game.takeTurn("O");
+
+        manager.setNextTurn(9);
 
         // Act
-        var state = game.takeTurn("O", 9);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -211,12 +271,16 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_diagonal_rith_to_left_is_filled_by_one_player() {
         // Arrange
-        var game = newGame();
-        game.takeTurn("O", 3);
-        game.takeTurn("O", 5);
+        manager.setNextTurn(3);
+        game.takeTurn("O");
+
+        manager.setNextTurn(5);
+        game.takeTurn("O");
+
+        manager.setNextTurn(7);
 
         // Act
-        var state = game.takeTurn("O", 7);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameHasAWinner, state.state());
@@ -224,19 +288,34 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameIsDraw_when_all_fields_is_taken_and_there_is_no_winner() {
-        // Arrange
-        var game = newGame();
-        game.takeTurn("O", 5);
-        game.takeTurn("X", 1);
-        game.takeTurn("O", 7);
-        game.takeTurn("X", 3);
-        game.takeTurn("O", 2);
-        game.takeTurn("X", 8);
-        game.takeTurn("O", 4);
-        game.takeTurn("X", 6);
+        // Arrange;
+        manager.setNextTurn(5);
+        game.takeTurn("O");
+        
+        manager.setNextTurn(1);
+        game.takeTurn("X");
 
+        manager.setNextTurn(7);
+        game.takeTurn("O");
+
+        manager.setNextTurn(3);
+        game.takeTurn("X");
+
+        manager.setNextTurn(2);
+        game.takeTurn("O");
+
+        manager.setNextTurn(8);
+        game.takeTurn("X");
+
+        manager.setNextTurn(4);
+        game.takeTurn("O");
+
+        manager.setNextTurn(6);
+        game.takeTurn("X");
+
+        manager.setNextTurn(9);
         // Act
-        var state = game.takeTurn("O", 9);
+        var state = game.takeTurn("O");
 
         // Assert
         assertEquals(TicTacToeGameState.GameIsDraw, state.state());
@@ -244,11 +323,23 @@ public class TicTacToeGameTest {
 
     @Test
     public void gameNotIsDraw_when_there_are_still_turns_to_take() {
-        // Arrange
-        var game = newGame();
-        
+        // Arrange;
+        manager.setNextTurn(5);
+
         // Act
-        var state = game.takeTurn("O", 5);
+        var state = game.takeTurn("O");
+
+        // Assert
+        assertNotEquals(TicTacToeGameState.GameIsDraw, state.state());
+    }
+
+    @Test
+    public void game_start_write_message() {
+        // Arrange;
+        manager.setNextTurn(5);
+
+        // Act
+        var state = game.takeTurn("O");
 
         // Assert
         assertNotEquals(TicTacToeGameState.GameIsDraw, state.state());

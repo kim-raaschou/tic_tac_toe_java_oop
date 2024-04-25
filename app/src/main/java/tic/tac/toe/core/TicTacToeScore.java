@@ -115,7 +115,7 @@ public class TicTacToeScore {
 
     private Optional<TicTacToeGameScore> turnIsTaken(String turn) {
         return List.of("X", "O").contains(turn)
-                ? Optional.of(TicTacToeGameScore.TurnAlreadyTaken(turn))
+                ? Optional.of(TicTacToeGameScore.TurnAlreadyTaken())
                 : Optional.empty();
     }
 }
