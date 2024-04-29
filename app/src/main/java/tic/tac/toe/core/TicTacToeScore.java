@@ -7,8 +7,8 @@ import java.util.Optional;
 public class TicTacToeScore {
     private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
-    public TicTacToeScore withScoreX(int score) {
-        scores[score - 1] = "X";
+    public TicTacToeScore withScoreX(int turn) {
+        scores[turn - 1] = "X";
         return this;
     }
 

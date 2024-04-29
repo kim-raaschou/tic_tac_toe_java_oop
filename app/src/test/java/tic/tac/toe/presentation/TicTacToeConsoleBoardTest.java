@@ -2,34 +2,24 @@ package tic.tac.toe.presentation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 
 import tic.tac.toe.core.TicTacToeScore;
 
 public class TicTacToeConsoleBoardTest {
 
-    class PrintfConsumerMock implements Consumer<String> {
-
-        private String written;
-
-        public String getWritten() {
-            return written;
-        }
-
-        @Override
-        public void accept(String s) {
-            written = s;
-        }
-    }
-
-    private String createAndDraw(TicTacToeScore scores) {
-        var printer = new PrintfConsumerMock();
-        var board = new TicTacToeConsoleBoard(printer);
+    private Integer nextTurn;
+    
+    private String createAndDrawGame(TicTacToeScore scores) {
+        
+        var messageBuilder = new StringBuilder();
+        
+        final TicTacToeConsoleGame board = new TicTacToeConsoleGame(
+                () -> nextTurn,
+                message -> messageBuilder.append(message));
 
         board.draw(scores);
-
-        return printer.getWritten();
+        return messageBuilder.toString();
     }
 
     @Test
@@ -47,7 +37,7 @@ public class TicTacToeConsoleBoardTest {
                 """;
 
         // Act
-        var board = createAndDraw(scores);
+        var board = createAndDrawGame(scores);
 
         // Assert
         assertEquals(expected, board);
@@ -75,7 +65,7 @@ public class TicTacToeConsoleBoardTest {
                 """;
 
         // Act
-        var board = createAndDraw(scores);
+        var board = createAndDrawGame(scores);
 
         // Assert
         assertEquals(expected, board);
@@ -106,7 +96,7 @@ public class TicTacToeConsoleBoardTest {
                 """;
 
         // Act
-        var board = createAndDraw(scores);
+        var board = createAndDrawGame(scores);
 
         // Assert
         assertEquals(expected, board);

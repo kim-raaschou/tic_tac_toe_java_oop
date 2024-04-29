@@ -2,32 +2,24 @@ package tic.tac.toe;
 
 import java.util.Scanner;
 
-import tic.tac.toe.core.TicTacToeBoardManager;
-import tic.tac.toe.core.TicTacToeGame;
-import tic.tac.toe.presentation.TicTacToeConsoleBoard;
+import tic.tac.toe.core.TicTacToeGameEngine;
+import tic.tac.toe.presentation.TicTacToeConsoleGame;
 
-public class App implements TicTacToeBoardManager {
+public class App {
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        var board = new TicTacToeConsoleBoard();
-        var manager = new App();
-        var game = new TicTacToeGame(board, manager);
-        
+        var board = new TicTacToeConsoleGame(App::nextInt,App::write);
+        var game = new TicTacToeGameEngine(board);
         game.startGame();
-
     }
 
-    
-
-    @Override
-    public int getNextInput() {
+    private static Integer nextInt(){
         return scanner.nextInt();
     }
 
-    @Override
-    public void output(String message) {
+    private static void write(String message){
         System.out.println(message);
     }
 }
