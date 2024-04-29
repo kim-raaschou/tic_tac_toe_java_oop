@@ -3,7 +3,6 @@ package tic.tac.toe.presentation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
 import tic.tac.toe.core.TicTacToeScore;
 
 public class TicTacToeConsoleBoardTest {
