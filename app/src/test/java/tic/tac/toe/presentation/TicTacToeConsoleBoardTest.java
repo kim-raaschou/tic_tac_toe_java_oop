@@ -7,15 +7,13 @@ import org.junit.jupiter.api.Test;
 import tic.tac.toe.core.TicTacToeScore;
 
 public class TicTacToeConsoleBoardTest {
-
-    private Integer nextTurn;
-    
+ 
     private String createAndDrawGame(TicTacToeScore scores) {
         
         var messageBuilder = new StringBuilder();
         
         final TicTacToeConsoleGame board = new TicTacToeConsoleGame(
-                () -> nextTurn,
+                () -> 0,
                 message -> messageBuilder.append(message));
 
         board.draw(scores);
