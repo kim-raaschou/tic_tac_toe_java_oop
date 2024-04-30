@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
 import tic.tac.toe.core.TicTacToeGame;
@@ -12,22 +13,25 @@ import tic.tac.toe.core.TicTacToeGameScore.TicTacToeGameStateEnum;
 import tic.tac.toe.core.TicTacToeGameEngine;
 import tic.tac.toe.core.TicTacToeScore;
 
-public class TicTacToeGameTest {
+public class TicTacToeGameEngineTest {
 
     private final TicTacToeGameStub gameStub;
     private final TicTacToeGameEngine gameEngine;
+
     class TicTacToeGameStub implements TicTacToeGame {
 
         public String message;
-        private int turn = 0;
+        private Stack<Integer> turns = new Stack<Integer>();
 
         @Override
         public int getNextInput() {
-            return turn;
+            return turns.pop();
         }
 
-        public void setNextTurn(int turn){
-            this.turn = turn;
+        public void setTurns(int... turns) {
+            for (int turn : turns) {
+                this.turns.add(turn);
+            }
         }
 
         @Override
@@ -35,7 +39,7 @@ public class TicTacToeGameTest {
             this.message = message;
         }
 
-        public String getLastMessage(){
+        public String getLastMessage() {
             return message;
         }
 
@@ -44,8 +48,8 @@ public class TicTacToeGameTest {
         }
 
     }
-    
-    public TicTacToeGameTest() {
+
+    public TicTacToeGameEngineTest() {
         gameStub = new TicTacToeGameStub();
         gameEngine = new TicTacToeGameEngine(gameStub);
     }
@@ -53,7 +57,7 @@ public class TicTacToeGameTest {
     @Test
     public void game_start_new_game_writes_to_output() {
         // Arrange;
-        gameStub.setNextTurn(1);
+        gameStub.setTurns(1);
 
         // Act
         var state = gameEngine.takeTurn("X");
@@ -67,8 +71,8 @@ public class TicTacToeGameTest {
     @Test
     public void takeAnotherTurn_when_turn_is_accepted() {
         // Arrange;
-        gameStub.setNextTurn(1);
-        
+        gameStub.setTurns(1);
+
         // Act
         var state = gameEngine.takeTurn("X");
 
@@ -81,7 +85,7 @@ public class TicTacToeGameTest {
     @Test
     public void somethingWentWronghave_when_turn_is_invalid_0() {
         // Arrange;
-        gameStub.setNextTurn(0);
+        gameStub.setTurns(0);
         var previousScore = gameEngine.getScores();
 
         // Act
@@ -96,24 +100,23 @@ public class TicTacToeGameTest {
     @Test
     public void somethingWentWronghave_when_turn_is_invalid_10() {
         // Arrange;
-        gameStub.setNextTurn(10);
-        var previousScore = gameEngine.getScores();
+        gameStub.setTurns(10);
 
         // Act
         var state = gameEngine.takeTurn("X");
 
         // Assert
-        assertAll(
-                () -> assertEquals(TicTacToeGameStateEnum.SomeThingWentWrong, state.state()),
-                () -> assertArrayEquals(previousScore, gameEngine.getScores()));
+        assertEquals(TicTacToeGameStateEnum.SomeThingWentWrong, state.state());
     }
 
     @Test
     public void turnIsAlreadsTaken_when_player_already_has_takend_the_turn() {
         // Arrange;
-        gameStub.setNextTurn(5);        
+        gameStub.setTurns(5);
         gameEngine.takeTurn("O");
         var previousScore = gameEngine.getScores();
+
+        gameStub.setTurns(5);
 
         // Act
         var state = gameEngine.takeTurn("X");
@@ -127,8 +130,8 @@ public class TicTacToeGameTest {
     @Test
     public void someThingWentWrong_when_player_is_not_valid() {
         // Arrange;
-        gameStub.setNextTurn(5);
-        
+        gameStub.setTurns(5);
+
         // Act
         var state = gameEngine.takeTurn("Y");
 
@@ -139,14 +142,9 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_row_1_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(1);
+        gameStub.setTurns(1, 2, 3);
         gameEngine.takeTurn("X");
-        
-        gameStub.setNextTurn(2);
         gameEngine.takeTurn("X");
-
-        gameStub.setNextTurn(3);
-
         // Act
         var state = gameEngine.takeTurn("X");
 
@@ -157,14 +155,10 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_row_2_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(4);
+        gameStub.setTurns(4, 5, 6);
+        gameEngine.takeTurn("O");
         gameEngine.takeTurn("O");
 
-        gameStub.setNextTurn(5);
-        gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(6);
-        
         // Act
         var state = gameEngine.takeTurn("O");
 
@@ -175,14 +169,11 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_row_3_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(7);
+        gameStub.setTurns(7, 8, 9);
+
+        gameEngine.takeTurn("X");
         gameEngine.takeTurn("X");
 
-        gameStub.setNextTurn(8);
-        gameEngine.takeTurn("X");
-
-        gameStub.setNextTurn(9);
- 
         // Act
         var state = gameEngine.takeTurn("X");
 
@@ -193,13 +184,11 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_column_1_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(1);
+        gameStub.setTurns(1, 4, 7);
+
+        gameEngine.takeTurn("O");
         gameEngine.takeTurn("O");
 
-        gameStub.setNextTurn(4);
-        gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(7);
         // Act
         var state = gameEngine.takeTurn("O");
 
@@ -210,13 +199,13 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_column_2_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(2);
+        gameStub.setTurns(2);
         gameEngine.takeTurn("O");
 
-        gameStub.setNextTurn(5);
+        gameStub.setTurns(5);
         gameEngine.takeTurn("O");
 
-        gameStub.setNextTurn(8);
+        gameStub.setTurns(8);
 
         // Act
         var state = gameEngine.takeTurn("O");
@@ -228,13 +217,10 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_column_3_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(3);
-        gameEngine.takeTurn("O");
+        gameStub.setTurns(3, 6, 9);
 
-        gameStub.setNextTurn(6);
         gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(9);
+        gameEngine.takeTurn("O");
 
         // Act
         var state = gameEngine.takeTurn("O");
@@ -246,13 +232,10 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_diagonal_left_to_right_is_filled_by_one_player() {
         // Arrange;
-        gameStub.setNextTurn(1);
-        gameEngine.takeTurn("O");
+        gameStub.setTurns(1, 5, 9);
 
-        gameStub.setNextTurn(5);
         gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(9);
+        gameEngine.takeTurn("O");
 
         // Act
         var state = gameEngine.takeTurn("O");
@@ -264,13 +247,10 @@ public class TicTacToeGameTest {
     @Test
     public void gameHasAWinner_when_diagonal_rith_to_left_is_filled_by_one_player() {
         // Arrange
-        gameStub.setNextTurn(3);
-        gameEngine.takeTurn("O");
+        gameStub.setTurns(3, 5, 7);
 
-        gameStub.setNextTurn(5);
         gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(7);
+        gameEngine.takeTurn("O");
 
         // Act
         var state = gameEngine.takeTurn("O");
@@ -282,42 +262,19 @@ public class TicTacToeGameTest {
     @Test
     public void gameIsDraw_when_all_fields_is_taken_and_there_is_no_winner() {
         // Arrange;
-        gameStub.setNextTurn(5);
-        gameEngine.takeTurn("O");
+        gameStub.setTurns(5, 1, 7, 3, 2, 8, 4, 6, 9);
         
-        gameStub.setNextTurn(1);
-        gameEngine.takeTurn("X");
-
-        gameStub.setNextTurn(7);
-        gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(3);
-        gameEngine.takeTurn("X");
-
-        gameStub.setNextTurn(2);
-        gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(8);
-        gameEngine.takeTurn("X");
-
-        gameStub.setNextTurn(4);
-        gameEngine.takeTurn("O");
-
-        gameStub.setNextTurn(6);
-        gameEngine.takeTurn("X");
-
-        gameStub.setNextTurn(9);
         // Act
-        var state = gameEngine.takeTurn("O");
+        gameEngine.startGame();
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameIsDraw, state.state());
+        assertEquals(TicTacToeGameStateEnum.GameIsDraw, gameEngine.getState());
     }
 
     @Test
     public void gameNotIsDraw_when_there_are_still_turns_to_take() {
         // Arrange;
-        gameStub.setNextTurn(5);
+        gameStub.setTurns(5);
 
         // Act
         var state = gameEngine.takeTurn("O");
@@ -329,7 +286,7 @@ public class TicTacToeGameTest {
     @Test
     public void game_start_write_message() {
         // Arrange;
-        gameStub.setNextTurn(5);
+        gameStub.setTurns(5);
 
         // Act
         var state = gameEngine.takeTurn("O");

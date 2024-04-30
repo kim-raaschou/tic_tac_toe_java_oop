@@ -1,5 +1,7 @@
 package tic.tac.toe.core;
 
+import tic.tac.toe.core.TicTacToeGameScore.TicTacToeGameStateEnum;
+
 public class TicTacToeGameEngine {
 
     private final TicTacToeScore scores = new TicTacToeScore();
@@ -20,6 +22,10 @@ public class TicTacToeGameEngine {
         return scores.toArray();
     }
 
+    public TicTacToeGameStateEnum getState(){
+        return gameScore.state();
+    }
+
     public TicTacToeGame getGame() {
         return game;
     }
@@ -33,17 +39,17 @@ public class TicTacToeGameEngine {
     }
 
     public void startGame() {
-        TicTacToeGameScore gameState = TicTacToeGameScore.Empty();
+        TicTacToeGameScore gameScore = TicTacToeGameScore.Empty();
 
         while (true) {
-            currentPlayer = gameState.state().switchPlayer()
+            currentPlayer = gameScore.state().switchPlayer()
                     ? switchPlayer(currentPlayer)
                     : currentPlayer;
 
-            gameState = takeTurn(currentPlayer);
-            game.output(gameState.message());
+            gameScore = takeTurn(currentPlayer);
+            game.output(gameScore.message());
 
-            if (gameState.state().gameHasEnded()) {
+            if (gameScore.state().gameHasEnded()) {
                 break;
             }
         }
