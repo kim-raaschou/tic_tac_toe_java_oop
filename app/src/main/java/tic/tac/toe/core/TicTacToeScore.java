@@ -24,7 +24,7 @@ public class TicTacToeScore {
     public TicTacToeGameState takeTurn(String player, int turn) {
         final Optional<TicTacToeGameState> validationError = invalidTurn(turn)
                 .or(() -> invalidPlayer(player))
-                .or(() -> turnIsTaken(scores[turn - 1]));
+                .or(() -> turnIsTaken(scores[turn - 1], player));
 
         if (validationError.isPresent()) {
             return validationError.get();
@@ -113,9 +113,9 @@ public class TicTacToeScore {
                 : Optional.of(TicTacToeGameState.SomethingWentWrong(""));
     }
 
-    private Optional<TicTacToeGameState> turnIsTaken(String turn) {
+    private Optional<TicTacToeGameState> turnIsTaken(String turn, String player) {
         return List.of("X", "O").contains(turn)
-                ? Optional.of(TicTacToeGameState.TurnAlreadyTaken())
+                ? Optional.of(TicTacToeGameState.TurnAlreadyTaken(player))
                 : Optional.empty();
     }
 }

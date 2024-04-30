@@ -40,7 +40,7 @@ public record TicTacToeGameState(String message, TicTacToeGameStateEnum state) {
         return new TicTacToeGameState(message, TicTacToeGameStateEnum.GameHasAWinner);
     }
 
-    public static TicTacToeGameState TurnAlreadyTaken() {
+    public static TicTacToeGameState TurnAlreadyTaken(String player) {
         final String message = "The turn is already taken.";
         return new TicTacToeGameState(message, TicTacToeGameStateEnum.TurnAlreadyTaken);
     }

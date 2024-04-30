@@ -39,7 +39,7 @@ public class TicTacToeGameEngine {
     }
 
     public void startGame() {
-        TicTacToeGameState gameScore = TicTacToeGameState.Empty();
+        var gameScore = TicTacToeGameState.Empty();
 
         while (true) {
             currentPlayer = gameScore.state().switchPlayer()
