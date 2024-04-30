@@ -9,7 +9,7 @@ import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
 import tic.tac.toe.core.TicTacToeGame;
-import tic.tac.toe.core.TicTacToeGameScore.TicTacToeGameStateEnum;
+import tic.tac.toe.core.TicTacToeGameState.TicTacToeGameStateEnum;
 import tic.tac.toe.core.TicTacToeGameEngine;
 import tic.tac.toe.core.TicTacToeScore;
 

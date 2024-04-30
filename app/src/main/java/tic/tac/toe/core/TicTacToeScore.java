@@ -21,8 +21,8 @@ public class TicTacToeScore {
         return scores;
     }
 
-    public TicTacToeGameScore takeTurn(String player, int turn) {
-        final Optional<TicTacToeGameScore> validationError = invalidTurn(turn)
+    public TicTacToeGameState takeTurn(String player, int turn) {
+        final Optional<TicTacToeGameState> validationError = invalidTurn(turn)
                 .or(() -> invalidPlayer(player))
                 .or(() -> turnIsTaken(scores[turn - 1]));
 
@@ -34,23 +34,23 @@ public class TicTacToeScore {
 
         String haswinner = hasLineWinner();
         if (haswinner != null) {
-            return TicTacToeGameScore.Winner(player);
+            return TicTacToeGameState.Winner(player);
         }
 
         haswinner = hasColumnWinner();
         if (haswinner != null) {
-            return TicTacToeGameScore.Winner(player);
+            return TicTacToeGameState.Winner(player);
         }
 
         haswinner = hasDiagonalWinner();
         if (haswinner != null) {
-            return TicTacToeGameScore.Winner(player);
+            return TicTacToeGameState.Winner(player);
         }
 
         if (gameIsDraw()) {
-            return TicTacToeGameScore.Gameover();
+            return TicTacToeGameState.Gameover();
         }
-        return TicTacToeGameScore.TakeATurn();
+        return TicTacToeGameState.TakeATurn();
     }
 
     private final boolean gameIsDraw() {
@@ -96,26 +96,26 @@ public class TicTacToeScore {
         return null;
     }
 
-    private Optional<TicTacToeGameScore> invalidTurn(int turn) {
+    private Optional<TicTacToeGameState> invalidTurn(int turn) {
         final var message = """
                 Invalid turn!
                 Turn must be a number between 1 and 9.
                 """;
 
         return turn < 1 || turn > 9
-                ? Optional.of(TicTacToeGameScore.SomethingWentWrong(message))
+                ? Optional.of(TicTacToeGameState.SomethingWentWrong(message))
                 : Optional.empty();
     }
 
-    private Optional<TicTacToeGameScore> invalidPlayer(String player) {
+    private Optional<TicTacToeGameState> invalidPlayer(String player) {
         return List.of("X", "O").contains(player)
                 ? Optional.empty()
-                : Optional.of(TicTacToeGameScore.SomethingWentWrong(""));
+                : Optional.of(TicTacToeGameState.SomethingWentWrong(""));
     }
 
-    private Optional<TicTacToeGameScore> turnIsTaken(String turn) {
+    private Optional<TicTacToeGameState> turnIsTaken(String turn) {
         return List.of("X", "O").contains(turn)
-                ? Optional.of(TicTacToeGameScore.TurnAlreadyTaken())
+                ? Optional.of(TicTacToeGameState.TurnAlreadyTaken())
                 : Optional.empty();
     }
 }
