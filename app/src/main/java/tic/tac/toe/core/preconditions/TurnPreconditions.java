@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import tic.tac.toe.core.GameStateCondition;
-import tic.tac.toe.core.TicTacToeGameState;
+import tic.tac.toe.core.GameState;
 
 public class TurnPreconditions {
 
@@ -23,7 +23,7 @@ public class TurnPreconditions {
         return this;
     }
 
-    public Optional<TicTacToeGameState> verifyAll() {
+    public Optional<GameState> verifyAll() {
         return conditions.stream()                
                 .map(GameStateCondition::Verify)
                 .filter(Objects::nonNull)

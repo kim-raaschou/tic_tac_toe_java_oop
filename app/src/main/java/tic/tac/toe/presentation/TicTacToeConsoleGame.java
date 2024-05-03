@@ -5,10 +5,10 @@ import java.util.function.Consumer;
 
 import com.google.common.base.Supplier;
 
-import tic.tac.toe.core.TicTacToeGame;
-import tic.tac.toe.core.TicTacToeScore;
+import tic.tac.toe.core.Game;
+import tic.tac.toe.core.GameScore;
 
-public class TicTacToeConsoleGame implements TicTacToeGame {
+public class TicTacToeConsoleGame implements Game {
 
     private static final String lineSeparator = System.lineSeparator();
     private final Supplier<Integer> reader;
@@ -39,7 +39,7 @@ public class TicTacToeConsoleGame implements TicTacToeGame {
         }
     }
 
-    public void draw(TicTacToeScore scores) {
+    public void draw(GameScore scores) {
         final String boarderLine = "+---+---+---+" + lineSeparator;
         var scoresArr = scores.toArray();
 

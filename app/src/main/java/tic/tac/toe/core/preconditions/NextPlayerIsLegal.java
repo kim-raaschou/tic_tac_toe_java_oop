@@ -3,7 +3,7 @@ package tic.tac.toe.core.preconditions;
 import java.util.List;
 
 import tic.tac.toe.core.GameStateCondition;
-import tic.tac.toe.core.TicTacToeGameState;
+import tic.tac.toe.core.GameState;
 
 public class NextPlayerIsLegal implements GameStateCondition {
 
@@ -17,15 +17,15 @@ public class NextPlayerIsLegal implements GameStateCondition {
     }
 
     @Override
-    public TicTacToeGameState Verify() {
+    public GameState Verify() {
         return List.of("X", "O").contains(player)
                 ? null
                 : invalidPlayerGameState();
     }
 
-    private TicTacToeGameState invalidPlayerGameState() {
+    private GameState invalidPlayerGameState() {
         String message = String.format(this.message, player);
-        return TicTacToeGameState.SomethingWentWrong(message);
+        return GameState.SomethingWentWrong(message);
     }
 
 }

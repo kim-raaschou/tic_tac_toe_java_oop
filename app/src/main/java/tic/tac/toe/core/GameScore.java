@@ -3,15 +3,15 @@ package tic.tac.toe.core;
 import java.util.Arrays;
 import java.util.List;
 
-public class TicTacToeScore {
+public class GameScore {
     private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
-    public TicTacToeScore withScoreX(int turn) {
+    public GameScore withScoreX(int turn) {
         scores[turn - 1] = "X";
         return this;
     }
 
-    public TicTacToeScore withScoreO(int turn) {
+    public GameScore withScoreO(int turn) {
         scores[turn - 1] = "O";
         return this;
     }
@@ -20,28 +20,28 @@ public class TicTacToeScore {
         return scores;
     }
 
-    public TicTacToeGameState takeTurn(String player, int turn) {
+    public GameState takeTurn(String player, int turn) {
         scores[turn - 1] = player;
 
         String haswinner = hasLineWinner();
         if (haswinner != null) {
-            return TicTacToeGameState.Winner(player);
+            return GameState.Winner(player);
         }
 
         haswinner = hasColumnWinner();
         if (haswinner != null) {
-            return TicTacToeGameState.Winner(player);
+            return GameState.Winner(player);
         }
 
         haswinner = hasDiagonalWinner();
         if (haswinner != null) {
-            return TicTacToeGameState.Winner(player);
+            return GameState.Winner(player);
         }
 
         if (gameIsDraw()) {
-            return TicTacToeGameState.Gameover();
+            return GameState.Gameover();
         }
-        return TicTacToeGameState.TakeATurn();
+        return GameState.TakeATurn();
     }
 
     private final boolean gameIsDraw() {

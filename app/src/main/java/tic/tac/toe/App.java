@@ -2,7 +2,7 @@ package tic.tac.toe;
 
 import java.util.Scanner;
 
-import tic.tac.toe.core.TicTacToeGameEngine;
+import tic.tac.toe.core.GameEngine;
 import tic.tac.toe.presentation.TicTacToeConsoleGame;
 
 public class App {
@@ -11,7 +11,7 @@ public class App {
 
     public static void main(String[] args) {
         var board = new TicTacToeConsoleGame(App::nextInt,App::write);
-        var game = new TicTacToeGameEngine(board);
+        var game = new GameEngine(board);
         game.startGame();
     }
 

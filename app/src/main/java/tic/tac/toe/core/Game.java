@@ -1,7 +1,7 @@
 package tic.tac.toe.core;
 
-public interface TicTacToeGame {
-    void draw(TicTacToeScore scores);
+public interface Game {
+    void draw(GameScore scores);
     public int getNextInput();
     public void output(String message); 
 }

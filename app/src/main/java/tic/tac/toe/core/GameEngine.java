@@ -1,20 +1,20 @@
 package tic.tac.toe.core;
 
-import tic.tac.toe.core.TicTacToeGameState.TicTacToeGameStateEnum;
+import tic.tac.toe.core.GameState.TicTacToeGameStateEnum;
 import tic.tac.toe.core.preconditions.NextPlayerIsLegal;
 import tic.tac.toe.core.preconditions.TurnIsNotAlreadyTaken;
 import tic.tac.toe.core.preconditions.TurnIsLegel;
 import tic.tac.toe.core.preconditions.TurnPreconditions;
 
-public class TicTacToeGameEngine {
+public class GameEngine {
 
-    private final TicTacToeScore scores = new TicTacToeScore();
-    private final TicTacToeGame game;
+    private final GameScore scores = new GameScore();
+    private final Game game;
 
-    private TicTacToeGameState gameScore;
+    private GameState gameScore;
     private String currentPlayer;
 
-    public TicTacToeGameEngine(TicTacToeGame game) {
+    public GameEngine(Game game) {
         this.game = game;
     }
 
@@ -30,11 +30,11 @@ public class TicTacToeGameEngine {
         return gameScore.state();
     }
 
-    public TicTacToeGame getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public TicTacToeGameState takeTurn(String player) {
+    public GameState takeTurn(String player) {
         game.output(String.format("Player %s. It´s your turn.", player));
         
         final var turn = game.getNextInput();
@@ -55,7 +55,7 @@ public class TicTacToeGameEngine {
     }
 
     public void startGame() {
-        var gameScore = TicTacToeGameState.Empty();
+        var gameScore = GameState.Empty();
 
         while (true) {
             currentPlayer = gameScore.state().switchPlayer()

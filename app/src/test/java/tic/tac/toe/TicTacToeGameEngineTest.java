@@ -8,17 +8,17 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
-import tic.tac.toe.core.TicTacToeGame;
-import tic.tac.toe.core.TicTacToeGameState.TicTacToeGameStateEnum;
-import tic.tac.toe.core.TicTacToeGameEngine;
-import tic.tac.toe.core.TicTacToeScore;
+import tic.tac.toe.core.Game;
+import tic.tac.toe.core.GameState.TicTacToeGameStateEnum;
+import tic.tac.toe.core.GameEngine;
+import tic.tac.toe.core.GameScore;
 
 public class TicTacToeGameEngineTest {
 
     private final TicTacToeGameStub gameStub;
-    private final TicTacToeGameEngine gameEngine;
+    private final GameEngine gameEngine;
 
-    class TicTacToeGameStub implements TicTacToeGame {
+    class TicTacToeGameStub implements Game {
 
         public String message;
         private Stack<Integer> turns = new Stack<Integer>();
@@ -44,14 +44,14 @@ public class TicTacToeGameEngineTest {
         }
 
         @Override
-        public void draw(TicTacToeScore scores) {
+        public void draw(GameScore scores) {
         }
 
     }
 
     public TicTacToeGameEngineTest() {
         gameStub = new TicTacToeGameStub();
-        gameEngine = new TicTacToeGameEngine(gameStub);
+        gameEngine = new GameEngine(gameStub);
     }
 
     @Test
