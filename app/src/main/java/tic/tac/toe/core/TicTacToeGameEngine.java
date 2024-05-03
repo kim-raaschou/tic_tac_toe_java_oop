@@ -32,7 +32,20 @@ public class TicTacToeGameEngine {
 
     public TicTacToeGameState takeTurn(String player) {
         game.output(String.format("Player %s. It´s your turn.", player));
-        gameScore = scores.takeTurn(player, game.getNextInput());
+        var turn = game.getNextInput();
+        final var somethingWentWrong = SomethingWentWrong
+            .when(new InvalidTurnIsTaken(turn))
+            .or(new InvalidPlayerIsPlayed(player))
+            .or(new TurnIsAlreadyPlayed(scores.toArray(), turn, player))
+            .asOptional();
+
+        if (somethingWentWrong.isPresent()) {
+            return somethingWentWrong.get();
+        }
+
+
+
+        gameScore = scores.takeTurn(player, turn);
         game.draw(scores);
 
         return gameScore;

@@ -22,14 +22,6 @@ public class TicTacToeScore {
     }
 
     public TicTacToeGameState takeTurn(String player, int turn) {
-        final Optional<TicTacToeGameState> validationError = invalidTurn(turn)
-                .or(() -> invalidPlayer(player))
-                .or(() -> turnIsTaken(scores[turn - 1], player));
-
-        if (validationError.isPresent()) {
-            return validationError.get();
-        }
-
         scores[turn - 1] = player;
 
         String haswinner = hasLineWinner();
@@ -54,7 +46,7 @@ public class TicTacToeScore {
     }
 
     private final boolean gameIsDraw() {
-        
+
         return Arrays.stream(scores).noneMatch(score -> {
             return !List.of("X", "O").contains(score);
         });
