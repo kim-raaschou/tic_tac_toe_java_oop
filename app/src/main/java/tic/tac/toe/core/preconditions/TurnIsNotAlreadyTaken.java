@@ -2,10 +2,10 @@ package tic.tac.toe.core.preconditions;
 
 import java.util.List;
 
-import tic.tac.toe.core.Precondition;
+import tic.tac.toe.core.GameStateCondition;
 import tic.tac.toe.core.TicTacToeGameState;
 
-public class TurnIsNotAlreadyTaken implements Precondition {
+public class TurnIsNotAlreadyTaken implements GameStateCondition {
 
     private final String[] scores;
     private final String player;

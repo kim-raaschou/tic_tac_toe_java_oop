@@ -2,10 +2,10 @@ package tic.tac.toe.core.preconditions;
 
 import java.util.List;
 
-import tic.tac.toe.core.Precondition;
+import tic.tac.toe.core.GameStateCondition;
 import tic.tac.toe.core.TicTacToeGameState;
 
-public class NextPlayerIsLegal implements Precondition {
+public class NextPlayerIsLegal implements GameStateCondition {
 
     private final String message = """
             Invalid player %s took turn - try again

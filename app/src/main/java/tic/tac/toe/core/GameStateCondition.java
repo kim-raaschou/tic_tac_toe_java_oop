@@ -1,5 +1,5 @@
 package tic.tac.toe.core;
 
-public interface Precondition{
+public interface GameStateCondition{
     public TicTacToeGameState Verify();
 }

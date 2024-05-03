@@ -1,9 +1,9 @@
 package tic.tac.toe.core.preconditions;
 
-import tic.tac.toe.core.Precondition;
+import tic.tac.toe.core.GameStateCondition;
 import tic.tac.toe.core.TicTacToeGameState;
 
-public class TurnIsLegel implements Precondition {
+public class TurnIsLegel implements GameStateCondition {
 
     private final int turn;
     private final String message = """
