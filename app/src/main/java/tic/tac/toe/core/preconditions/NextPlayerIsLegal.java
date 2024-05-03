@@ -1,20 +1,23 @@
-package tic.tac.toe.core;
+package tic.tac.toe.core.preconditions;
 
 import java.util.List;
 
-public class InvalidPlayerIsPlayed implements WhenSomethingWentWrong {
+import tic.tac.toe.core.Precondition;
+import tic.tac.toe.core.TicTacToeGameState;
+
+public class NextPlayerIsLegal implements Precondition {
 
     private final String message = """
             Invalid player %s took turn - try again
             """;
     private final String player;
 
-    public InvalidPlayerIsPlayed(String player) {
+    public NextPlayerIsLegal(String player) {
         this.player = player;
     }
 
     @Override
-    public TicTacToeGameState Assert() {
+    public TicTacToeGameState Verify() {
         return List.of("X", "O").contains(player)
                 ? null
                 : invalidPlayerGameState();

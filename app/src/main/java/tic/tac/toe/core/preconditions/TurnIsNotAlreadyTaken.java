@@ -1,21 +1,24 @@
-package tic.tac.toe.core;
+package tic.tac.toe.core.preconditions;
 
 import java.util.List;
 
-public class TurnIsAlreadyPlayed implements WhenSomethingWentWrong {
+import tic.tac.toe.core.Precondition;
+import tic.tac.toe.core.TicTacToeGameState;
+
+public class TurnIsNotAlreadyTaken implements Precondition {
 
     private final String[] scores;
     private final String player;
     private final int turn;
 
-    public TurnIsAlreadyPlayed(String[] scores, int turn, String player) {
-        this.scores = scores;
+    public TurnIsNotAlreadyTaken(int turn, String player, String[] scores) {
         this.turn = turn;
         this.player = player;
+        this.scores = scores;
     }
 
     @Override
-    public TicTacToeGameState Assert() {
+    public TicTacToeGameState Verify() {
         return List.of("X", "O").contains(scores[turn - 1])
                 ? TicTacToeGameState.TurnAlreadyTaken(player)
                 : null;

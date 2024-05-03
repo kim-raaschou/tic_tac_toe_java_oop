@@ -1,6 +1,9 @@
-package tic.tac.toe.core;
+package tic.tac.toe.core.preconditions;
 
-public class InvalidTurnIsTaken implements WhenSomethingWentWrong {
+import tic.tac.toe.core.Precondition;
+import tic.tac.toe.core.TicTacToeGameState;
+
+public class TurnIsLegel implements Precondition {
 
     private final int turn;
     private final String message = """
@@ -8,12 +11,12 @@ public class InvalidTurnIsTaken implements WhenSomethingWentWrong {
             Turn must be a number between 1 and 9.
             """;
 
-    public InvalidTurnIsTaken(int turn) {
+    public TurnIsLegel(int turn) {
         this.turn = turn;
     }
 
     @Override
-    public TicTacToeGameState Assert() {
+    public TicTacToeGameState Verify() {
         return turn < 1 || turn > 9
                 ? TicTacToeGameState.SomethingWentWrong(message)
                 : null;

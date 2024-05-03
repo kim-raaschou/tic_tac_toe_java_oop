@@ -1,6 +1,10 @@
 package tic.tac.toe.core;
 
 import tic.tac.toe.core.TicTacToeGameState.TicTacToeGameStateEnum;
+import tic.tac.toe.core.preconditions.NextPlayerIsLegal;
+import tic.tac.toe.core.preconditions.TurnIsNotAlreadyTaken;
+import tic.tac.toe.core.preconditions.TurnIsLegel;
+import tic.tac.toe.core.preconditions.TurnPreconditions;
 
 public class TicTacToeGameEngine {
 
@@ -32,18 +36,17 @@ public class TicTacToeGameEngine {
 
     public TicTacToeGameState takeTurn(String player) {
         game.output(String.format("Player %s. It´s your turn.", player));
-        var turn = game.getNextInput();
-        final var somethingWentWrong = SomethingWentWrong
-            .when(new InvalidTurnIsTaken(turn))
-            .or(new InvalidPlayerIsPlayed(player))
-            .or(new TurnIsAlreadyPlayed(scores.toArray(), turn, player))
-            .asOptional();
+        
+        final var turn = game.getNextInput();
+        final var preconditions = new TurnPreconditions()
+            .verify(new TurnIsLegel(turn))
+            .verify(new NextPlayerIsLegal(player))
+            .verify(new TurnIsNotAlreadyTaken(turn, player, scores.toArray()))
+            .verifyAll();
 
-        if (somethingWentWrong.isPresent()) {
-            return somethingWentWrong.get();
+        if (preconditions.isPresent()) {
+            return preconditions.get();
         }
-
-
 
         gameScore = scores.takeTurn(player, turn);
         game.draw(scores);

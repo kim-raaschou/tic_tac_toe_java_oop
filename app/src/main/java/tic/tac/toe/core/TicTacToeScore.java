@@ -2,7 +2,6 @@ package tic.tac.toe.core;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class TicTacToeScore {
     private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -86,28 +85,5 @@ public class TicTacToeScore {
             return scores[7];
 
         return null;
-    }
-
-    private Optional<TicTacToeGameState> invalidTurn(int turn) {
-        final var message = """
-                Invalid turn!
-                Turn must be a number between 1 and 9.
-                """;
-
-        return turn < 1 || turn > 9
-                ? Optional.of(TicTacToeGameState.SomethingWentWrong(message))
-                : Optional.empty();
-    }
-
-    private Optional<TicTacToeGameState> invalidPlayer(String player) {
-        return List.of("X", "O").contains(player)
-                ? Optional.empty()
-                : Optional.of(TicTacToeGameState.SomethingWentWrong(""));
-    }
-
-    private Optional<TicTacToeGameState> turnIsTaken(String turn, String player) {
-        return List.of("X", "O").contains(turn)
-                ? Optional.of(TicTacToeGameState.TurnAlreadyTaken(player))
-                : Optional.empty();
     }
 }
