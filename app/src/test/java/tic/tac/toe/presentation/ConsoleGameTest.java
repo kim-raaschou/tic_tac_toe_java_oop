@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import tic.tac.toe.core.GameScore;
 
-public class TicTacToeConsoleGameTest {
+public class ConsoleGameTest {
  
     private String createAndDrawGame(GameScore scores) {
         
         var messageBuilder = new StringBuilder();
         
-        final TicTacToeConsoleGame board = new TicTacToeConsoleGame(
+        final ConsoleGame board = new ConsoleGame(
                 () -> 0,
                 message -> messageBuilder.append(message));
 

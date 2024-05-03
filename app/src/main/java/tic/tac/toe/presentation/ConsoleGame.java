@@ -8,13 +8,13 @@ import com.google.common.base.Supplier;
 import tic.tac.toe.core.Game;
 import tic.tac.toe.core.GameScore;
 
-public class TicTacToeConsoleGame implements Game {
+public class ConsoleGame implements Game {
 
     private static final String lineSeparator = System.lineSeparator();
     private final Supplier<Integer> reader;
     private final Consumer<String> writer;
 
-    public TicTacToeConsoleGame(Supplier<Integer> getNextTurn, Consumer<String> writeMessage) {
+    public ConsoleGame(Supplier<Integer> getNextTurn, Consumer<String> writeMessage) {
         this.reader = getNextTurn;
         this.writer = writeMessage;
     }

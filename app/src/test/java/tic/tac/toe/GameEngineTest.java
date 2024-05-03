@@ -13,7 +13,7 @@ import tic.tac.toe.core.GameState.TicTacToeGameStateEnum;
 import tic.tac.toe.core.GameEngine;
 import tic.tac.toe.core.GameScore;
 
-public class TicTacToeGameEngineTest {
+public class GameEngineTest {
 
     private final TicTacToeGameStub gameStub;
     private final GameEngine gameEngine;
@@ -49,7 +49,7 @@ public class TicTacToeGameEngineTest {
 
     }
 
-    public TicTacToeGameEngineTest() {
+    public GameEngineTest() {
         gameStub = new TicTacToeGameStub();
         gameEngine = new GameEngine(gameStub);
     }
