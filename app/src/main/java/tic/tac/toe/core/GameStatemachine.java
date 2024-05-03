@@ -6,24 +6,24 @@ import com.google.common.base.Supplier;
 
 public class GameStatemachine {
 
-    private final List<Supplier<GameState>> conditions = new ArrayList<>();
+    private final List<GameStateTransition> transitions = new ArrayList<>();
 
     public static GameStatemachine that(GameStateTransition gameStateTransition) {
         var instance = new GameStatemachine();
-        instance.conditions.add(() -> gameStateTransition.Execute());
+        instance.transitions.add(gameStateTransition);
         return instance;
     }
     
     public GameStatemachine addTransition(GameStateTransition gameStateTransition) {
-        conditions.add(() -> gameStateTransition.Execute());
+        transitions.add(gameStateTransition);
         return this;
     }
     
     public GameState getGameState() {
         GameState gameState = GameState.Empty();
 
-        for (var gameStateCondition : conditions) {
-            var newGameState = gameStateCondition.get();
+        for (var gameStateCondition : transitions) {
+            var newGameState = gameStateCondition.Execute();
             gameState = newGameState != null ? newGameState : gameState;
 
             if (!gameState.state().isGameContinuable()) {
@@ -32,11 +32,5 @@ public class GameStatemachine {
         }
 
         return gameState;
-
-        // return conditions.stream()
-        // .map(GameStateCondition::Verify)
-        // .filter(Objects::nonNull)
-        // .findFirst();
-    }
-
+   }
 }

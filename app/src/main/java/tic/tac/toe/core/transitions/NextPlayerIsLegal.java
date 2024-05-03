@@ -1,9 +1,9 @@
-package tic.tac.toe.core.preconditions;
+package tic.tac.toe.core.transitions;
 
 import java.util.List;
 
-import tic.tac.toe.core.GameStateTransition;
 import tic.tac.toe.core.GameState;
+import tic.tac.toe.core.GameStateTransition;
 
 public class NextPlayerIsLegal implements GameStateTransition {
 

@@ -1,4 +1,4 @@
-package tic.tac.toe.core.preconditions;
+package tic.tac.toe.core.transitions;
 
 import java.util.List;
 

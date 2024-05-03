@@ -1,6 +1,5 @@
-package tic.tac.toe.core.postconditions;
+package tic.tac.toe.core.transitions;
 
-import tic.tac.toe.core.GameScore;
 import tic.tac.toe.core.GameState;
 import tic.tac.toe.core.GameStateTransition;
 
@@ -9,8 +8,8 @@ public class HorizontalWinner implements GameStateTransition{
     private final String[] scores;
     private final String player;
 
-    public HorizontalWinner(GameScore scores, String player) {
-        this.scores = scores.toArray();
+    public HorizontalWinner(String[] scores, String player) {
+        this.scores = scores;
         this.player = player;
     }
     @Override

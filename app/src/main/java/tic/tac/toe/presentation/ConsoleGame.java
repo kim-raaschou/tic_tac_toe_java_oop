@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import com.google.common.base.Supplier;
 
 import tic.tac.toe.core.Game;
-import tic.tac.toe.core.GameScore;
 
 public class ConsoleGame implements Game {
 
@@ -39,17 +38,16 @@ public class ConsoleGame implements Game {
         }
     }
 
-    public void draw(GameScore scores) {
+    public void draw(String[] scores) {
         final String boarderLine = "+---+---+---+" + lineSeparator;
-        var scoresArr = scores.toArray();
-
+        
         var board = new StringBuilder()
                 .append(boarderLine)
-                .append(new TicTacToeRow(scoresArr[0], scoresArr[1], scoresArr[2]))
+                .append(new TicTacToeRow(scores[0], scores[1], scores[2]))
                 .append(boarderLine)
-                .append(new TicTacToeRow(scoresArr[3], scoresArr[4], scoresArr[5]))
+                .append(new TicTacToeRow(scores[3], scores[4], scores[5]))
                 .append(boarderLine)
-                .append(new TicTacToeRow(scoresArr[6], scoresArr[7], scoresArr[8]))
+                .append(new TicTacToeRow(scores[6], scores[7], scores[8]))
                 .append(boarderLine)
                 .toString();
 

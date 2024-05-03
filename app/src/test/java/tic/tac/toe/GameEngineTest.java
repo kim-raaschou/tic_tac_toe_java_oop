@@ -9,9 +9,9 @@ import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
 import tic.tac.toe.core.Game;
-import tic.tac.toe.core.GameState.TicTacToeGameStateEnum;
 import tic.tac.toe.core.GameEngine;
 import tic.tac.toe.core.GameScore;
+import tic.tac.toe.core.GameStateEnum;
 
 public class GameEngineTest {
 
@@ -44,7 +44,7 @@ public class GameEngineTest {
         }
 
         @Override
-        public void draw(GameScore scores) {
+        public void draw(String[] scores) {
         }
 
     }
@@ -64,7 +64,7 @@ public class GameEngineTest {
 
         // Assert
         assertAll(
-                () -> assertEquals(TicTacToeGameStateEnum.TakeAnotherTuren, state.state()),
+                () -> assertEquals(GameStateEnum.TakeAnotherTuren, state.state()),
                 () -> assertEquals("X", gameEngine.getScores()[0]));
     }
 
@@ -78,7 +78,7 @@ public class GameEngineTest {
 
         // Assert
         assertAll(
-                () -> assertEquals(TicTacToeGameStateEnum.TakeAnotherTuren, state.state()),
+                () -> assertEquals(GameStateEnum.TakeAnotherTuren, state.state()),
                 () -> assertEquals("X", gameEngine.getScores()[0]));
     }
 
@@ -93,7 +93,7 @@ public class GameEngineTest {
 
         // Assert
         assertAll(
-                () -> assertEquals(TicTacToeGameStateEnum.SomeThingWentWrong, state.state()),
+                () -> assertEquals(GameStateEnum.SomeThingWentWrong, state.state()),
                 () -> assertArrayEquals(previousScore, gameEngine.getScores()));
     }
 
@@ -106,7 +106,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("X");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.SomeThingWentWrong, state.state());
+        assertEquals(GameStateEnum.SomeThingWentWrong, state.state());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class GameEngineTest {
 
         // Assert
         assertAll(
-                () -> assertEquals(TicTacToeGameStateEnum.TurnAlreadyTaken, state.state()),
+                () -> assertEquals(GameStateEnum.TurnAlreadyTaken, state.state()),
                 () -> assertArrayEquals(previousScore, gameEngine.getScores()));
     }
 
@@ -136,7 +136,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("Y");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.SomeThingWentWrong, state.state());
+        assertEquals(GameStateEnum.SomeThingWentWrong, state.state());
     }
 
     @Test
@@ -149,7 +149,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("X");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -178,7 +178,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("X");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -193,7 +193,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -211,7 +211,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -226,7 +226,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -241,7 +241,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -256,7 +256,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameHasAWinner, state.state());
+        assertEquals(GameStateEnum.GameHasAWinner, state.state());
     }
 
     @Test
@@ -268,7 +268,7 @@ public class GameEngineTest {
         var gameState = gameEngine.startGame();
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameIsDraw, gameState.state());
+        assertEquals(GameStateEnum.GameIsDraw, gameState.state());
     }
 
     @Test
@@ -280,7 +280,7 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertNotEquals(TicTacToeGameStateEnum.GameIsDraw, state.state());
+        assertNotEquals(GameStateEnum.GameIsDraw, state.state());
     }
 
     @Test
@@ -292,6 +292,6 @@ public class GameEngineTest {
         var state = gameEngine.takeTurn("O");
 
         // Assert
-        assertNotEquals(TicTacToeGameStateEnum.GameIsDraw, state.state());
+        assertNotEquals(GameStateEnum.GameIsDraw, state.state());
     }
 }
