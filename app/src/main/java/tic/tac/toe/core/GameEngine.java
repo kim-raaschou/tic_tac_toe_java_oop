@@ -10,11 +10,9 @@ import tic.tac.toe.core.transitions.VerticalWinner;
 
 public class GameEngine {
 
-    private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-
-    //private final GameScore scores = new GameScore();
     private final Game game;
 
+    private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
     private String currentPlayer;
 
     public GameEngine(Game game) {
@@ -23,11 +21,9 @@ public class GameEngine {
 
     public String[] getScores() {
         return scores;
-        //return scores.toArray();
     }
 
     public GameState takeTurn(String player) {
-        game.output(String.format("Player %s. It´s your turn.", player));
         final var turn = game.getNextInput();
 
         var gameState = new GameStatemachine()
@@ -36,7 +32,7 @@ public class GameEngine {
                 .addTransition(new TurnIsNotAlreadyTaken(turn, player, scores))
                 .addTransition(() -> {
                     scores[turn - 1] = player;
-                    //scores.takeTurn(player, turn);
+                    // scores.takeTurn(player, turn);
                     game.draw(scores);
                     return GameState.TakeATurn();
                 })
@@ -57,6 +53,9 @@ public class GameEngine {
                     ? switchPlayer(currentPlayer)
                     : currentPlayer;
 
+            String message = String.format("Player %s. It´s your turn.", currentPlayer);
+            game.output(message);
+            
             gameScore = takeTurn(currentPlayer);
             game.output(gameScore.message());
         }
