@@ -32,7 +32,6 @@ public class GameEngine {
                 .addTransition(new TurnIsNotAlreadyTaken(turn, player, scores))
                 .addTransition(() -> {
                     scores[turn - 1] = player;
-                    // scores.takeTurn(player, turn);
                     game.draw(scores);
                     return GameState.TakeATurn();
                 })
