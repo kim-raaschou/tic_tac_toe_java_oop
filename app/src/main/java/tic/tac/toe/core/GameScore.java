@@ -3,6 +3,11 @@ package tic.tac.toe.core;
 import java.util.Arrays;
 import java.util.List;
 
+import tic.tac.toe.core.postconditions.DiagonalsWinner;
+import tic.tac.toe.core.postconditions.GameIsDraw;
+import tic.tac.toe.core.postconditions.HorizontalWinner;
+import tic.tac.toe.core.postconditions.VerticalWinner;
+
 public class GameScore {
     private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -20,28 +25,29 @@ public class GameScore {
         return scores;
     }
 
-    public GameState takeTurn(String player, int turn) {
+    public void takeTurn(String player, int turn) {
         scores[turn - 1] = player;
 
-        String haswinner = hasLineWinner();
-        if (haswinner != null) {
-            return GameState.Winner(player);
-        }
+       
+        // String haswinner = hasLineWinner();
+        // if (haswinner != null) {
+        // return GameState.Winner(player);
+        // }
 
-        haswinner = hasColumnWinner();
-        if (haswinner != null) {
-            return GameState.Winner(player);
-        }
+        // haswinner = hasColumnWinner();
+        // if (haswinner != null) {
+        // return GameState.Winner(player);
+        // }
 
-        haswinner = hasDiagonalWinner();
-        if (haswinner != null) {
-            return GameState.Winner(player);
-        }
+        // haswinner = hasDiagonalWinner();
+        // if (haswinner != null) {
+        // return GameState.Winner(player);
+        // }
 
-        if (gameIsDraw()) {
-            return GameState.Gameover();
-        }
-        return GameState.TakeATurn();
+        // if (gameIsDraw()) {
+        // return GameState.Gameover();
+        // }
+        //return GameState.TakeATurn();
     }
 
     private final boolean gameIsDraw() {

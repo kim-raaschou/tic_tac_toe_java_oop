@@ -1,33 +1,25 @@
 package tic.tac.toe.core;
 
-import tic.tac.toe.core.GameState.TicTacToeGameStateEnum;
+import tic.tac.toe.core.postconditions.DiagonalsWinner;
+import tic.tac.toe.core.postconditions.GameIsDraw;
+import tic.tac.toe.core.postconditions.HorizontalWinner;
+import tic.tac.toe.core.postconditions.VerticalWinner;
 import tic.tac.toe.core.preconditions.NextPlayerIsLegal;
 import tic.tac.toe.core.preconditions.TurnIsNotAlreadyTaken;
 import tic.tac.toe.core.preconditions.TurnIsLegel;
-import tic.tac.toe.core.preconditions.TurnPreconditions;
 
 public class GameEngine {
 
     private final GameScore scores = new GameScore();
     private final Game game;
 
-    private GameState gameScore;
     private String currentPlayer;
 
     public GameEngine(Game game) {
         this.game = game;
     }
-
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
-
     public String[] getScores() {
         return scores.toArray();
-    }
-
-    public TicTacToeGameStateEnum getState(){
-        return gameScore.state();
     }
 
     public Game getGame() {
@@ -36,25 +28,27 @@ public class GameEngine {
 
     public GameState takeTurn(String player) {
         game.output(String.format("Player %s. It´s your turn.", player));
-        
         final var turn = game.getNextInput();
-        final var preconditions = new TurnPreconditions()
-            .verify(new TurnIsLegel(turn))
-            .verify(new NextPlayerIsLegal(player))
-            .verify(new TurnIsNotAlreadyTaken(turn, player, scores.toArray()))
-            .verifyAll();
 
-        if (preconditions.isPresent()) {
-            return preconditions.get();
-        }
+        var gameState = new GameStatemachine()
+                .addTransition(new TurnIsLegel(turn))
+                .addTransition(new NextPlayerIsLegal(player))
+                .addTransition(new TurnIsNotAlreadyTaken(turn, player, scores.toArray()))
+                .addTransition(() -> {
+                    scores.takeTurn(player, turn);
+                    game.draw(scores);
+                    return GameState.TakeATurn();
+                })
+                .addTransition(new DiagonalsWinner(scores, player))
+                .addTransition(new HorizontalWinner(scores, player))
+                .addTransition(new VerticalWinner(scores, player))
+                .addTransition(new GameIsDraw(scores))
+                .getGameState();
 
-        gameScore = scores.takeTurn(player, turn);
-        game.draw(scores);
-
-        return gameScore;
+        return gameState;
     }
 
-    public void startGame() {
+    public GameState startGame() {
         var gameScore = GameState.Empty();
 
         while (true) {
@@ -66,7 +60,7 @@ public class GameEngine {
             game.output(gameScore.message());
 
             if (gameScore.state().gameHasEnded()) {
-                break;
+                return gameScore;
             }
         }
     }

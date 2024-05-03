@@ -1,9 +1,9 @@
 package tic.tac.toe.core.preconditions;
 
-import tic.tac.toe.core.GameStateCondition;
+import tic.tac.toe.core.GameStateTransition;
 import tic.tac.toe.core.GameState;
 
-public class TurnIsLegel implements GameStateCondition {
+public class TurnIsLegel implements GameStateTransition {
 
     private final int turn;
     private final String message = """
@@ -16,7 +16,7 @@ public class TurnIsLegel implements GameStateCondition {
     }
 
     @Override
-    public GameState Verify() {
+    public GameState Execute() {
         return turn < 1 || turn > 9
                 ? GameState.SomethingWentWrong(message)
                 : null;

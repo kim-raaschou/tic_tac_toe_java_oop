@@ -2,10 +2,10 @@ package tic.tac.toe.core.preconditions;
 
 import java.util.List;
 
-import tic.tac.toe.core.GameStateCondition;
+import tic.tac.toe.core.GameStateTransition;
 import tic.tac.toe.core.GameState;
 
-public class NextPlayerIsLegal implements GameStateCondition {
+public class NextPlayerIsLegal implements GameStateTransition {
 
     private final String message = """
             Invalid player %s took turn - try again
@@ -17,7 +17,7 @@ public class NextPlayerIsLegal implements GameStateCondition {
     }
 
     @Override
-    public GameState Verify() {
+    public GameState Execute() {
         return List.of("X", "O").contains(player)
                 ? null
                 : invalidPlayerGameState();

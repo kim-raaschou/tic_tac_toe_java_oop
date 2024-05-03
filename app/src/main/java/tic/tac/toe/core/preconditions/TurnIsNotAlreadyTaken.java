@@ -2,10 +2,10 @@ package tic.tac.toe.core.preconditions;
 
 import java.util.List;
 
-import tic.tac.toe.core.GameStateCondition;
+import tic.tac.toe.core.GameStateTransition;
 import tic.tac.toe.core.GameState;
 
-public class TurnIsNotAlreadyTaken implements GameStateCondition {
+public class TurnIsNotAlreadyTaken implements GameStateTransition {
 
     private final String[] scores;
     private final String player;
@@ -18,7 +18,7 @@ public class TurnIsNotAlreadyTaken implements GameStateCondition {
     }
 
     @Override
-    public GameState Verify() {
+    public GameState Execute() {
         return List.of("X", "O").contains(scores[turn - 1])
                 ? GameState.TurnAlreadyTaken(player)
                 : null;

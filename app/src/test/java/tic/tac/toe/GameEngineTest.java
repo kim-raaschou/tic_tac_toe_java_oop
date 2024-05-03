@@ -265,10 +265,10 @@ public class GameEngineTest {
         gameStub.setTurns(5, 1, 7, 3, 2, 8, 4, 6, 9);
         
         // Act
-        gameEngine.startGame();
+        var gameState = gameEngine.startGame();
 
         // Assert
-        assertEquals(TicTacToeGameStateEnum.GameIsDraw, gameEngine.getState());
+        assertEquals(TicTacToeGameStateEnum.GameIsDraw, gameState.state());
     }
 
     @Test

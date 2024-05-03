@@ -25,6 +25,12 @@ public record GameState(String message, TicTacToeGameStateEnum state) {
         public boolean switchPlayer() {
             return switchTurn;
         }
+
+        public boolean isGameContinuable() {
+            return !gameHasEnded
+                    && this != TicTacToeGameStateEnum.TurnAlreadyTaken
+                    && this != TicTacToeGameStateEnum.SomeThingWentWrong;
+        }
     }
 
     public static final GameState Empty() {
