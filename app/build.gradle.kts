@@ -29,7 +29,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("tic.tac.toe.App")
+    mainClass.set("tic.tac.toe.presentation.ConsoleGameApp")
 }
 
 tasks.named<Test>("test") {
