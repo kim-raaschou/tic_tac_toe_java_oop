@@ -43,6 +43,7 @@ public class GameEngine {
     }
 
     public GameState startGame() {
+        game.output(String.format("Player %s will start.", currentPlayer.getName()));
         var gameScore = GameState.Empty();
 
         while (gameScore.state().isGameContinuable()) {
@@ -51,8 +52,7 @@ public class GameEngine {
                 currentPlayer = Player.Switch(currentPlayer);
             }
            
-            String message = String.format("Player %s. It´s your turn.", currentPlayer);
-            game.output(message);
+            game.output(String.format("Player %s. It´s your turn.", currentPlayer.getName()));
 
             gameScore = takeTurn(currentPlayer);
             game.output(gameScore.message());

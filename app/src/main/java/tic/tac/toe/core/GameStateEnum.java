@@ -1,7 +1,7 @@
 package tic.tac.toe.core;
 
 public enum GameStateEnum {
-    Unknown(false, true),
+    Unknown(false, false),
     GameHasAWinner(true, false),
     GameIsDraw(true, false),
     TurnAlreadyTaken(false, false),
