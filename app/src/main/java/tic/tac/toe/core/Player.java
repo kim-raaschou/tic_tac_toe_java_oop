@@ -27,8 +27,10 @@ public interface Player {
     }
 
     public static Player Switch(Player player) {
-        return player instanceof PlayerX
-                ? new PlayerO()
-                : new PlayerX();
+        return switch (player) {
+            case final PlayerX x -> new PlayerO();
+            case final PlayerO o -> new PlayerX();
+            default -> throw new IllegalArgumentException();
+        };
     }
 }
