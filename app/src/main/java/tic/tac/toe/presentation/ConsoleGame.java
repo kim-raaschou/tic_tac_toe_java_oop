@@ -2,8 +2,7 @@ package tic.tac.toe.presentation;
 
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import com.google.common.base.Supplier;
+import java.util.function.Supplier;
 
 import tic.tac.toe.core.Game;
 

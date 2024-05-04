@@ -2,7 +2,6 @@ package tic.tac.toe.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.common.base.Supplier;
 
 public class GameStatemachine {
 
