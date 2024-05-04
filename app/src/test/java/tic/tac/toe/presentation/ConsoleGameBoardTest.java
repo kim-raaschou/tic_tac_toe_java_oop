@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class ConsoleGameTest {
+public class ConsoleGameBoardTest {
  
     private String createAndDrawGame(String[] scores) {
         
         var messageBuilder = new StringBuilder();
         
-        final ConsoleGame board = new ConsoleGame(
+        final ConsoleGameBoard board = new ConsoleGameBoard(
                 () -> 0,
                 message -> messageBuilder.append(message));
 

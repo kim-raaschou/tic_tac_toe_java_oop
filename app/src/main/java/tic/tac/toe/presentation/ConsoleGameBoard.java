@@ -6,13 +6,13 @@ import java.util.function.Supplier;
 
 import tic.tac.toe.core.GameBoard;
 
-public class ConsoleGame implements GameBoard {
+public class ConsoleGameBoard implements GameBoard {
 
     private static final String lineSeparator = System.lineSeparator();
     private final Supplier<Integer> reader;
     private final Consumer<String> writer;
 
-    public ConsoleGame(Supplier<Integer> getNextTurn, Consumer<String> writeMessage) {
+    public ConsoleGameBoard(Supplier<Integer> getNextTurn, Consumer<String> writeMessage) {
         this.reader = getNextTurn;
         this.writer = writeMessage;
     }
