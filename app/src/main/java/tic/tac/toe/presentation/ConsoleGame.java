@@ -4,9 +4,9 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import tic.tac.toe.core.Game;
+import tic.tac.toe.core.GameBoard;
 
-public class ConsoleGame implements Game {
+public class ConsoleGame implements GameBoard {
 
     private static final String lineSeparator = System.lineSeparator();
     private final Supplier<Integer> reader;

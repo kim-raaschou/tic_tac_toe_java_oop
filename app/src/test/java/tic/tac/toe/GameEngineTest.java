@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
-import tic.tac.toe.core.Game;
+import tic.tac.toe.core.GameBoard;
 import tic.tac.toe.core.GameEngine;
 import tic.tac.toe.core.GameStateEnum;
 import tic.tac.toe.core.Player;
@@ -18,7 +18,7 @@ public class GameEngineTest {
     private final TicTacToeGameStub gameStub;
     private final GameEngine gameEngine;
 
-    class TicTacToeGameStub implements Game {
+    class TicTacToeGameStub implements GameBoard {
 
         public String message;
         private Stack<Integer> turns = new Stack<Integer>();

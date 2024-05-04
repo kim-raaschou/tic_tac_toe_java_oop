@@ -9,12 +9,12 @@ import tic.tac.toe.core.transitions.VerticalWinner;
 
 public class GameEngine {
 
-    private final Game game;
+    private final GameBoard game;
 
     private String[] scores = new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
     private Player currentPlayer = Player.X();
 
-    public GameEngine(Game game) {
+    public GameEngine(GameBoard game) {
         this.game = game;
     }
 
